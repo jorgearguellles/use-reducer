@@ -10,8 +10,22 @@ const InitialState = [{
 
 function TodoApp() {
 
-  const [ todos ] = useReducer(todoReducer, InitialState);
-  console.log(todos)
+  const [ todos, dispatch ] = useReducer(todoReducer, InitialState);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newTodo = {
+      id: new Date().getTime(),
+      desc: 'Learn Node.js',
+      done: false,
+    }
+    const action = {
+      type: 'ADD',
+      payload: newTodo
+    }
+    dispatch(action);
+  }
+
 
   return (
     <>
@@ -41,7 +55,7 @@ function TodoApp() {
         <div className='col-5'>
           <h4>Add ToDo</h4>
           <hr />
-          <form>
+          <form onSubmit={handleSubmit} >
             <input 
               className='form-control mb-3'
               type='text'
